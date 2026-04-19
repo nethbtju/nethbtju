@@ -10,10 +10,10 @@ export function useScrollNavigation() {
 
   useEffect(() => {
     const handleScroll = (delta: number) => {
-      const { currentTarget, currentMoonTarget, isTransitioning, travelTo, goNextPlanet, goPrevPlanet } =
+      const { currentTarget, currentMoonTarget, isTransitioning, panelOpen, travelTo, goNextPlanet, goPrevPlanet } =
         useStore.getState();
 
-      if (isTransitioning) return;
+      if (isTransitioning || panelOpen) return;
       scrollAccumRef.current += delta;
 
       const planet = PLANET_DEFS.find(p => p.id === currentTarget);
@@ -61,6 +61,8 @@ export function useScrollNavigation() {
     };
 
     const onWheel = (e: WheelEvent) => {
+      // Only hijack scroll when panel is closed; when open let the panel scroll naturally
+      if (useStore.getState().panelOpen) return;
       e.preventDefault();
       handleScroll(e.deltaY);
     };

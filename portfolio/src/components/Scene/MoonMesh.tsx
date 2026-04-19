@@ -1,6 +1,7 @@
 import { useRef, Suspense } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
+import { useShallow } from 'zustand/react/shallow';
 import * as THREE from 'three';
 import type { MoonDef, PlanetDef } from '../../data/planets';
 import { useStore } from '../../store/useStore';
@@ -15,8 +16,24 @@ interface Props {
 export function MoonMesh({ moon, planet }: Props) {
   const groupRef = useRef<THREE.Group>(null);
   const angleRef = useRef(moon.initialAngle);
-  const currentMoonTarget = useStore(s => s.currentMoonTarget);
-  const isFocused = currentMoonTarget === moon.label;
+  const { currentTarget, currentMoonTarget, travelTo } = useStore(useShallow(s => ({
+    currentTarget:     s.currentTarget,
+    currentMoonTarget: s.currentMoonTarget,
+    travelTo:          s.travelTo,
+  })));
+  const isFocused   = currentMoonTarget === moon.label;
+  const planetFocused = currentTarget === planet.id;
+
+  const handleClick = () => {
+    if (planetFocused) travelTo(planet.id, moon.label);
+  };
+
+  const handlePointerOver = () => {
+    if (planetFocused) document.body.style.cursor = 'pointer';
+  };
+  const handlePointerOut = () => {
+    document.body.style.cursor = 'crosshair';
+  };
 
   useFrame(() => {
     angleRef.current += moon.speed;
@@ -50,7 +67,11 @@ export function MoonMesh({ moon, planet }: Props) {
 
       {/* Group orbits together: sphere + label */}
       <group ref={groupRef} position={[moon.dist, 0, 0]}>
-        <mesh>
+        <mesh
+          onClick={handleClick}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
+        >
           <sphereGeometry args={[moon.r, 18, 18]} />
           <meshStandardMaterial
             color={moon.color}
