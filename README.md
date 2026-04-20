@@ -107,7 +107,7 @@ quote: "Could I be considered a vibe coder if I am a qualified engineer?"
 
 <div align="center">
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-0d1117?style=for-the-badge&logo=googlechrome&logoColor=58a6ff)](https://yourwebsite.com)
+[![Portfolio](https://img.shields.io/badge/Portfolio-0d1117?style=for-the-badge&logo=googlechrome&logoColor=58a6ff)](https://nethbtju.netlify.app/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=fff)](www.linkedin.com/in/nethmini-botheju-0a6912227)
 [![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=fff)](mailto:nethbotheju04@gmail.com)
 
